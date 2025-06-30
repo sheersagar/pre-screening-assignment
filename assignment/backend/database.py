@@ -1,6 +1,7 @@
 import psycopg2
 from psycopg2 import sql
 from dotenv import load_dotenv
+import os
 
 load_dotenv()
 
