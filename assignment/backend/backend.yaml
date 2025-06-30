@@ -15,7 +15,7 @@ spec:
     spec:     
       containers:
       - name: backend
-        image: vishv3432/python-backend:v8
+        image: vishv3432/python-backend:v9
         ports:
           - containerPort: 8000
         env:

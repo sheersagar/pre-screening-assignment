@@ -4,7 +4,7 @@ from database import get_db_connection
 import os
 frontend_origin = os.getenv("FRONTEND_ORIGIN", "http://localhost:3000")
 
-app = FastAPI()
+app = FastAPI(root_path="/docs")
 
 class User(BaseModel):
     username: str
