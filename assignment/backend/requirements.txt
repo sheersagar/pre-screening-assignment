@@ -2,3 +2,4 @@ fastapi
 uvicorn
 psycopg2-binary
 python-dotenv>=0.20.0
+#Nothin needs to be added here
