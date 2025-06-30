@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: vishv3432/nodejs-frontend:v5
+          image: vishv3432/nodejs-frontend:v6
           ports:
             - containerPort: 3000
           env:
