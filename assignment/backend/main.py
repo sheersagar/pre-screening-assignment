@@ -21,6 +21,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+@app.get("/")
+def read_root():
+    return {"message": "Backend root is alive"}
+
 @app.post("/create_user")
 async def create_user(user: User):
     conn = get_db_connection()
