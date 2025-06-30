@@ -1,6 +1,8 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from database import get_db_connection
+import os
+frontend_origin = os.getenv("FRONTEND_ORIGIN", "http://localhost:3000")
 
 app = FastAPI()
 
@@ -13,7 +15,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],  # Adjust this to your frontend origin
+    allow_origins=["frontend_origin"],  # Adjust this to your frontend origin
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

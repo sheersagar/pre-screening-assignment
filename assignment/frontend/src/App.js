@@ -7,7 +7,8 @@ function App() {
 
   const handleSubmit = async (action) => {
     try {
-      const response = await fetch(`http://localhost:8000/${action}`, {
+      const BACKEND_URL = process.env.React_APP_BACKEND_URL || 'http://localhost:8000'; // Use environment variable or default URL
+      const response = await fetch(`${BACKEND_URL}/${action}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

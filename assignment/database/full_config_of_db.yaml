@@ -17,6 +17,20 @@ data:
   POSTGRES_USER: dmlzaHY=         # "vishv" base64
   POSTGRES_PASSWORD: YWRtaW4xMjM= # "admin123" base64
   POSTGRES_DB: bXlkYXRhYmFzZQ==   # "mydatabase" base64
+---
+# 2.1 StorageClass for EBS
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: ebs-sc
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "true"  # optional
+provisioner: ebs.csi.aws.com
+volumeBindingMode: WaitForFirstConsumer
+reclaimPolicy: Retain
+parameters:
+  type: gp3
+
 
 ---
 
@@ -27,6 +41,7 @@ metadata:
   name: postgres-pvc
   namespace: db
 spec:
+  storageClassName: ebs-sc
   accessModes:
     - ReadWriteOnce
   resources:
@@ -72,9 +87,11 @@ spec:
                 secretKeyRef:
                   name: postgres-secret
                   key: POSTGRES_DB
+            - name: PGDATA
+              value: /var/lib/postgresql/data/pgdata
           volumeMounts:
             - name: postgres-storage
-              mountPath: /var/lib/postgresql/data
+              mountPath: /var/lib/postgresql/data/pgdata
           readinessProbe:
             exec:
               command: ["pg_isready", "-U", "vishv"]
