@@ -4,7 +4,7 @@ from database import get_db_connection
 import os
 frontend_origin = os.getenv("FRONTEND_ORIGIN", "http://localhost:3000")
 
-app = FastAPI(root_path="/docs")
+app = FastAPI()
 
 class User(BaseModel):
     username: str
@@ -21,9 +21,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.get("/")
-def read_root():
-    return {"message": "Backend root is alive"}
 
 @app.post("/create_user")
 async def create_user(user: User):
