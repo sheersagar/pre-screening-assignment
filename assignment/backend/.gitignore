@@ -1,1 +1,6 @@
+# Ignore everything outside assignment directory
+../../*
+!../../assignment/
+
+# Still, ignore the local environment file inside backend
 .env

@@ -1,0 +1,59 @@
+# ======================
+# ConfigMap
+# ======================
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backend-config
+  namespace: app
+data:
+  FRONTEND_ORIGIN: "http://frontend.app.svc.cluster.local:3000"
+  DATABASE_URL: "postgresql://vishv:admin123@postgres.db.svc.cluster.local:5432/ps_db"
+
+---
+# ======================
+# Deployment
+# ======================
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  namespace: app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+        - name: backend
+          image: vishv3432/1backend:21
+          ports:
+            - containerPort: 8000
+          envFrom:
+            - configMapRef:
+                name: backend-config
+#            - secretRef:
+#                name: postgres-secret
+
+---
+# ======================
+# Service
+# ======================
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend
+  namespace: app
+spec:
+  selector:
+    app: backend
+  ports:
+    - port: 8000
+      targetPort: 8000
+  type: ClusterIP
+
