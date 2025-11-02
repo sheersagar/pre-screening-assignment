@@ -1,27 +1,27 @@
-# FROM node:14 
+FROM node:18-alpine
 
 
-# WORKDIR /app
-# COPY package.json ./
-# COPY package-lock.json ./
-# RUN npm install web-vitals
-# RUN npm install
-
-# COPY . .
-
-# EXPOSE 3000
-# CMD ["npm", "start"]
-
-# Stage 1: Build React app
-FROM node:18-alpine AS build
 WORKDIR /app
-COPY package*.json ./
+COPY package.json ./
+COPY package-lock.json ./
+RUN npm install web-vitals
 RUN npm install
-COPY . .
-RUN npm run build
 
-# Stage 2: Serve app with Nginx
-FROM nginx:alpine
-COPY --from=build /app/build /usr/share/nginx/html
+COPY . .
+
 EXPOSE 3000
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["npm", "start"]
+
+# # Stage 1: Build React app
+# FROM node:18-alpine AS build
+# WORKDIR /app
+# COPY package*.json ./
+# RUN npm install
+# COPY . .
+# RUN npm run build
+
+# # Stage 2: Serve app with Nginx
+# FROM nginx:alpine
+# COPY --from=build /app/build /usr/share/nginx/html
+# EXPOSE 3000
+# CMD ["nginx", "-g", "daemon off;"]
